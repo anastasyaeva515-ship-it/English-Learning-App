@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        nav button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        nav button:hover {
+            background-color: #0b7dda;
+        }
+        .module {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .module.active {
+            display: block;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+        .quiz-options {
+            margin: 10px 0;
+        }
+        .quiz-options label {
+            display: block;
+            margin: 5px 0;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .flashcard {
+            background-color: #e3f2fd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .reading-text {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            margin: 10px 0;
+        }
+        .speaking-prompt {
+            font-size: 18px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        #timer {
+            font-size: 24px;
+            color: #FF5722;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>English Learning App</h1>
+        <p>Belajar Grammar, Vocabulary, Reading, dan Speaking dengan mudah!</p>
+    </header>
+
+    <nav>
+        <button onclick="showModule('grammar')">Grammar</button>
+        <button onclick="showModule('vocab')">Vocabulary</button>
+        <button onclick="showModule('reading')">Reading</button>
+        <button onclick="showModule('speaking')">Speaking</button>
+    </nav>
+
+    <!-- Grammar Module -->
+    <div id="grammar" class="module">
+        <h2>Grammar Quiz</h2>
+        <p>Pilih jawaban yang benar untuk aturan grammar dasar.</p>
+        <form id="grammarForm">
+            <div class="quiz-question">
+                <p>1. What is the past tense of "go"?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> went</label>
+                    <label><input type="radio" name="q1" value="b"> go</label>
+                    <label><input type="radio" name="q1" value="c"> goes</label>
+                </div>
+            </div>
+            <div class="quiz-question">
+                <p>2. Which sentence is correct?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> She don't like apples.</label>
+                    <label><input type="radio" name="q2" value="b"> She doesn't like apples.</label>
+                    <label><input type="radio" name="q2" value="c"> She not like apples.</label>
+                </div>
+            </div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="grammarResult"></div>
+    </div>
+
+    <!-- Vocabulary Module -->
+    <div id="vocab" class="module">
+        <h2>Vocabulary Flashcards</h2>
+        <p>Klik "Next" untuk kartu berikutnya. Ingat arti kata!</p>
+        <div id="flashcard" class="flashcard">
+            <h3 id="vocabWord">Happy</h3>
+            <p id="vocabMeaning">Senang / Bahagia</p>
+        </div>
+        <button onclick="nextFlashcard()">Next Card</button>
+        <p id="vocabScore">Score: 0</p>
+    </div>
+
+    <!-- Reading Module -->
+    <div id="reading" class="module">
+        <h2>Reading Comprehension</h2>
+        <p>Baca teks di bawah dan jawab pertanyaan.</p>
+        <div class="reading-text">
+            <p>London is the capital of England. It is a big city with many famous places like Big Ben and the London Eye. People from all over the world visit London every year.</p>
+        </div>
+        <form id="readingForm">
+            <div class="quiz-question">
+                <p>1. What is London?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="r1" value="a"> A country</label>
+                    <label><input type="radio" name="r1" value="b"> The capital of England</label>
+                    <label><input type="radio" name="r1" value="c"> A small village</label>
+                </div>
+            </div>
+            <div class="quiz-question">
+                <p>2. Why do people visit London?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="r2" value="a"> To see famous places</label>
+                    <label><input type="radio" name="r2" value="b"> To live there</label>
+                    <label><input type="radio" name="r2" value="c"> To study English only</label>
+                </div>
+            </div>
+            <button type="submit">Submit Answers</button>
+        </form>
+        <div id="readingResult"></div>
+    </div>
+
+    <!-- Speaking Module -->
+    <div id="speaking" class="module">
+        <h2>Speaking Practice</h2>
+        <p>Latih pengucapan dengan membaca prompt ini dengan lantang. Gunakan timer untuk 1 menit latihan.</p>
+        <div class="speaking-prompt" id="speakingPrompt">
+            Describe your favorite food in English. (e.g., "My favorite food is pizza because...")
+        </div>
+        <button onclick="startSpeakingTimer()">Start 1-Minute Timer</button>
+        <div id="timer"></div>
+        <button onclick="nextSpeakingPrompt()">Next Prompt</button>
+    </div>
+
+    <script>
+        // Show/Hide Modules
+        function showModule(moduleId) {
+            // Hide all modules
+            const modules = document.querySelectorAll('.module');
+            modules.forEach(m => m.classList.remove('active'));
+            // Show selected
+            document.getElementById(moduleId).classList.add('active');
+        }
+
+        // Grammar Quiz
+        document.getElementById('grammarForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            let score = 0;
+            if (q1 && q1.value === 'a') score++;
+            if (q2 && q2.value === 'b') score++;
+            document.getElementById('grammarResult').innerHTML = `<div id="result">Your score: ${score}/2. Great job!</div>`;
+        });
+
+        // Vocabulary Flashcards
+        const vocabData = [
+            { word: 'Happy', meaning: 'Senang / Bahagia' },
+            { word: 'Run', meaning: 'Berlari' },
+            { word: 'Book', meaning: 'Buku' },
+            { word: 'Eat', meaning: 'Makan' },
+            { word: 'Friend', meaning: 'Teman' }
+        ];
+        let vocabIndex = 0;
+        let vocabScore = 0;
+
+        function nextFlashcard() {
+            vocabIndex = (vocabIndex + 1) % vocabData.length;
+            document.getElementById('vocabWord').textContent = vocabData[vocabIndex].word;
+            document.getElementById('vocabMeaning').textContent = '? (Klik untuk ingat)';
+            setTimeout(() => {
+                document.getElementById('vocabMeaning').textContent = vocabData[vocabIndex].meaning;
+            }, 1000); // Reveal after 1 second
+            vocabScore++;
+            document.getElementById('vocabScore').textContent = `Cards seen: ${vocabScore}`;
+        }
+
+        // Reading Quiz
+        document.getElementById('readingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const r1 = document.querySelector('input[name="r1"]:checked');
+            const r2 = document.querySelector('input[name="r2"]:checked');
+            let score = 0;
+            if (r1 && r1.value === 'b') score++;
+            if (r2 && r2.value === 'a') score++;
+            document.getElementById('readingResult').innerHTML = `<div id="result">Your score: ${score}/2. Keep reading!</div>`;
+        });
+
+        // Speaking Practice
+        const speakingPrompts = [
+            'Describe your favorite food in English.',
+            'Talk about your daily routine.',
+            'What is your dream job? Explain why.',
+            'Describe a memorable trip.'
+        ];
+        let speakingIndex = 0;
+        let timerInterval;
+        let timeLeft = 60;
+
+        function nextSpeakingPrompt() {
+            speakingIndex = (speakingIndex + 1) % speakingPrompts.length;
+            document.getElementById('speakingPrompt').textContent = speakingPrompts[speakingIndex];
+            document.getElementById('timer').textContent = '';
+        }
+
+        function startSpeakingTimer() {
+            timeLeft = 60;
+            document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').textContent = 'Time up! Practice more.';
+                }
+            }, 1000);
+        }
+
+        // Initialize: Show Grammar by default
+        showModule('grammar');
+    </script>
+</body>
+</html>
